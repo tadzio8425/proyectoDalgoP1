@@ -79,18 +79,22 @@ class ProblemaP1():
         #Se crea el grafo de adyacencias como una matriz de tamaño (equal_sum + 1)*(m + 1)
         cadMatrix = [[False for j in range(equal_sum+1)] for i in range(m + 1)]
 
-        #Se establece un caso de ayuda trivial en la primera columna (True)
-        for i in range(m + 1):
-            cadMatrix[i][0] = True
-
         #Se rellena el grafo de ayacencias de izquierda a derecha, fila por fila
         #Donde i -> Número de familias a considerar
         #Donde j -> Número de personas por CAD
-        for i in range(1, m + 1):
-            for j in range(1, equal_sum + 1):
+        for i in range(m + 1):
+            for j in range(equal_sum + 1):
+
+                #Caso Base #1: i = 0 (Excepto para i = 0 y j = 0)
+                if(i == 0 and j != 0):
+                    cadMatrix[i][j] = False
+
+                #Caso Base #2: j = 0
+                elif(j == 0):
+                    cadMatrix[i][j] = True
                 
                 #Si, el número de miembros de una familia es mayor que la suma actual...
-                if(f[i - 1] > j):
+                elif(f[i - 1] > j):
                     #Entonces ignorar a esa familia
                     cadMatrix[i][j] = cadMatrix[i-1][j]
 
