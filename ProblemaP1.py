@@ -27,7 +27,7 @@ class ProblemaP1():
             k = case_list[0]
 
             # Se obtiene el número de familias diferentes
-            m = case_list[1]            
+            m = case_list[1]           
 
             # Se obtiene el listado con el número de miembros de cada familia
             f = case_list[2:m+2]
@@ -109,7 +109,7 @@ class ProblemaP1():
         # Variable temporal de búsqueda
         group_sum = equal_sum
 
-        # Se revisa que el algoritmo haya encontrado que 
+        # Se revisa que el algoritmo haya encontrado que
         # efectivamente se pueden formar los grupos
         if (cadMatrix[m][equal_sum]):
 
