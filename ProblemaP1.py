@@ -4,6 +4,10 @@ import sys
 
 class ProblemaP1():
     def __init__(self):
+
+        #Variable global que almacena el resultado de cada prueba (Se reinicia cuando finaliza la prueba)
+        self.cad_final = []
+
         self.readInput()
 
     """Función que lee los datos de entrada"""
@@ -28,10 +32,17 @@ class ProblemaP1():
             f = case_list[2:m+2]
 
             #Se verifica que la entrada ingresada sea válida
-            self.checkValidity(k, m, f)
+            #self.checkValidity(k, m, f)
 
             #Se soluciona el problema
             self.CADPrepare(k, m, f)
+
+            #Se imprime el resultado de la prueba y se resetea dicho campo
+            if(self.cad_final == False):
+                print(False)
+            else:
+                print(True, self.cad_final)
+            self.cad_final = []
 
 
     """Función que determina la validez de la entrada."""
@@ -49,7 +60,7 @@ class ProblemaP1():
 
         #Si el número total de personas es divisible por k, siginifica que se pueden formar k grupos con ellos, de lo contrario
         #se retorna False
-        if(total_members % 3 != 0):
+        if(total_members % k != 0):
             print(False)
             return 
         
@@ -59,8 +70,9 @@ class ProblemaP1():
         #Se llama el algoritmo de programación dinámica que verfica los grupos
         self.CADAssign(k, m, f, max_per_CAD)
 
+
     
-    """Función que determina si exise un sub-conjunto de familias cuya suma sea igual a k/3, de existir,
+    """Función que determina si exise un sub-conjunto de familias cuya suma sea igual a total_sum/k, de existir,
     se sabe existen k sub-conjuntos posibles con este tamaño"""
     def CADAssign(self, k: int, m: int, f:int, equal_sum: int):
 
@@ -74,8 +86,8 @@ class ProblemaP1():
         #Se rellena el grafo de ayacencias de izquierda a derecha, fila por fila
         #Donde i -> Número de familias a considerar
         #Donde j -> Número de personas por CAD
-        for i in range(m + 1):
-            for j in range(equal_sum + 1):
+        for i in range(1, m + 1):
+            for j in range(1, equal_sum + 1):
                 
                 #Si, el número de miembros de una familia es mayor que la suma actual...
                 if(f[i - 1] > j):
@@ -86,8 +98,60 @@ class ProblemaP1():
                 else:
                     #Evaluar si esa familia puede hacer parte del subconjunto o no
                     cadMatrix[i][j] = (cadMatrix[i-1][j] or cadMatrix[i-1][j - f[i - 1]])
+    
+        self.CADgroups(cadMatrix, m, equal_sum, f, k)
 
-        print(cadMatrix[m][equal_sum])
+    def CADgroups(self, cadMatrix: list, m:int, equal_sum: int, f:list, k: int):
+
+        #Lista de listas -> Resultados
+        
+
+        #Subgrupos temporales encontrados
+        cad_1 = []
+        cad_2 = list.copy(f)
+
+        #Booleano de inconsistencia
+        inconsistencia = False
+
+        group_sum = equal_sum
+
+        #Se revisa que el algoritmo haya encontrado que efectivamente se pueden formar los grupos
+        if(cadMatrix[m][equal_sum]):
+
+            #Se va hacía atrás en la matriz para encontrar el subgrupo particular encontrado por el algoritmo
+            while group_sum > 0:
+                if(cadMatrix[m][group_sum - f[m-1]]):
+                    cad_1.append(f[m -1])
+                    cad_2.pop(m - 1)
+                    group_sum -= f[m - 1]
+
+                m -= 1
+
+            #Se añade el grupo encontrado por el algoritmo
+            self.cad_final.append(cad_1)
+
+
+            #Se revisa si el valor de k es mayor que 2, en dado caso, con la sub-lista cad_2 será necesario ver si esta se puede
+            #descomponer
+            if k > 2:
+
+                sub_k = k-1 #Pues ya se ha despejado un conjunto
+                sub_m = len(cad_2) #Pues esta es la nueva lista de familias sin asignar
+                sub_f = cad_2 
+                sub_max_per_cad = equal_sum #La suma de los elementos internos debe seguir siendo igual
+
+                self.CADAssign(sub_k, sub_m, sub_f, sub_max_per_cad)
+            
+            else:
+                #Se añade el grupo complementario
+                self.cad_final.append(cad_2)
+
+            
+        
+
+        else:
+            #De lo contrario simplemente se determina que el cad_final es falso
+            self.cad_final = False
 
 
 ProblemaP1()
