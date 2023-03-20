@@ -78,11 +78,11 @@ class ProblemaP1():
         for i in range(m + 1):
             for j in range(equal_sum + 1):
 
-                # Caso Base #1: i = 0 (Excepto para i = 0 y j = 0)
+                # Caso Base #1: Primera fila
                 if (i == 0 and j != 0):
                     cadMatrix[i][j] = False
 
-                # Caso Base #2: j = 0
+                # Caso Base #2: Primera columna
                 elif (j == 0):
                     cadMatrix[i][j] = True
 
