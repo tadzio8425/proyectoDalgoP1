@@ -27,7 +27,7 @@ class ProblemaP1():
             k = case_list[0]
 
             # Se obtiene el número de familias diferentes
-            m = case_list[1]           
+            m = case_list[1]
 
             # Se obtiene el listado con el número de miembros de cada familia
             f = case_list[2:m+2]
