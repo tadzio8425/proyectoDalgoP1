@@ -1,5 +1,10 @@
 import sys
 
+# Solución realizada por: 
+# Esteban Gonzalez (202010737)
+# Juan Sebastián Ortega Romero (202021703)}
+# Maria Luisa Rodríguez (202121549)
+
 
 class ProblemaP1():
     def __init__(self):
