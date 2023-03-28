@@ -22,7 +22,7 @@ class ProblemaP1():
         numero_casos = int(sys.stdin.readline())
 
         # Por cada caso de prueba se analiza una línea distinta...
-        for __ in range(numero_casos):
+        for case in range(numero_casos):
 
             # Segunda línea -> Lista que contiene toda la la información
             #  de un caso particular
@@ -42,9 +42,14 @@ class ProblemaP1():
 
             # Se imprime el resultado de la prueba y se resetea dicho campo
             if not self.cad_final:
-                print(False)
+                response = 'False'
             else:
-                print(True, self.cad_final)
+                end_var = '\n'
+                if case == numero_casos-1:
+                    end_var = ''
+                response = self.formatOutput(self.cad_final)
+
+            print(response, end=end_var)
             self.cad_final = []
 
     """Función que prepara los datos usados en el
@@ -149,6 +154,24 @@ class ProblemaP1():
         else:
             # De lo contrario, se determina que el cad_final es falso
             self.cad_final = False
+
+    def formatOutput(self, cad_list: list):
+
+        formatted_output = 'True ['
+
+        for j in range(len(cad_list)):
+            cad = cad_list[j]
+            formatted_output += '('
+            for i in range(len(cad)):
+                formatted_output = formatted_output + str(cad[i])
+                if i != len(cad)-1:
+                    formatted_output += ','
+            formatted_output += ')'
+            if j != len(cad_list)-1:
+                formatted_output += ','
+        formatted_output += ']'
+
+        return formatted_output
 
 
 ProblemaP1()
