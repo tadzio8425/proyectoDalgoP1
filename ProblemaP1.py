@@ -43,6 +43,7 @@ class ProblemaP1():
             # Se imprime el resultado de la prueba y se resetea dicho campo
             if not self.cad_final:
                 response = 'False'
+                end_var = '\n'
             else:
                 end_var = '\n'
                 if case == numero_casos-1:
